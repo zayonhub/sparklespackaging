@@ -362,3 +362,46 @@ p{ margin:0; }
   .materials-page-grid > div:first-child,.consultation-page-grid > div:first-child,.contact-page-grid > div:first-child{ width:46%; margin-right:8%; }
   .materials-page-grid > div:last-child,.consultation-page-grid > div:last-child,.contact-page-grid > div:last-child{ width:46%; }
 }
+
+
+/* SPARKLES HOMEPAGE CONVERSION UPGRADE */
+@media (min-width: 760px){
+  .home-hero-grid{
+    grid-template-columns:minmax(330px,0.82fr) minmax(0,1.18fr);
+    align-items:center;
+  }
+  .home-hero-visual{
+    transform:translateX(8px);
+  }
+  .home-video-mosaic{
+    height:560px;
+  }
+  .video-primary{
+    width:calc(64% - 8px);
+  }
+  .video-stack{
+    width:calc(36% - 8px);
+  }
+}
+@media (min-width:1100px){
+  .home-video-mosaic{
+    height:620px;
+  }
+}
+@media (max-width:759px){
+  .home-video-mosaic{
+    padding-bottom:42px;
+  }
+  .video-primary{
+    height:280px;
+  }
+  .video-secondary,.video-tertiary{
+    height:180px;
+  }
+}
+.home-hero-copy .button-primary{
+  box-shadow:0 10px 24px rgba(245,144,31,0.28);
+}
+.home-hero-copy .button-primary:hover{
+  box-shadow:0 12px 28px rgba(245,144,31,0.38);
+}
