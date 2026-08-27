@@ -15,7 +15,7 @@ HTML pages, one shared stylesheet, one shared script.
 
 ## Run it locally
 Any static server works, e.g.:
-```
+``` 
 python3 -m http.server 8080
 ```
 then open `http://localhost:8080`.
