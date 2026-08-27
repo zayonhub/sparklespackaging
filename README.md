@@ -1,7 +1,6 @@
 # Sparkles Packaging — plain HTML site
 
-A full rebuild of the site with no framework and no build step: 7 static
-HTML pages, one shared stylesheet, one shared script.
+A focused five-page static site with no framework and no build step: Home, Products, Services, About, and Contact. Legacy content pages remain available for existing URLs and are intentionally kept out of primary navigation.
 
 ## Structure
 - `index.html` — home
