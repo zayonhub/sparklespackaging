@@ -1,0 +1,55 @@
+name: Improve homepage copy
+on:
+  push:
+    branches: [homepage-video-upgrade]
+permissions:
+  contents: write
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Improve conversion copy
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          replacements={
+          'Sparkles Packaging — Your Packaging. Your Brand. Our Expertise.':'Sparkles Packaging — Packaging That Protects Your Product & Builds Your Brand.',
+          'Packaging partnership &middot; Worldwide delivery':'Packaging solutions &middot; Quality you can rely on',
+          'Your packaging. <span class="signal-word" style="color:#F5901F">Your brand.</span> Our expertise.':'Packaging that protects your product — <span class="signal-word" style="color:#F5901F">and builds your brand.</span>',
+          'Sparkles delivers premium, durable, and food-grade packaging solutions worldwide &mdash; from flexible LD nylon to high-volume laminated sacks, with the printing and branding that brings your commercial packaging to life.':'From laminated and woven sacks to LD nylon, pouches, labels and custom-printed packaging, Sparkles helps businesses package their products with quality, consistency and a professional finish.',
+          'Talk to a packaging partner':'Get a Packaging Quote',
+          'Explore our services':'Explore Our Products',
+          'href="services.html" style="color:#fff;border-color:rgba(255,255,255,0.4)"':'href="products.html" style="color:#fff;border-color:rgba(255,255,255,0.4)"',
+          '<strong>Plain materials</strong> in bales and large orders. <strong>Food-grade, durable, printed, and branded options</strong> for market. MOQ confirmed with you.':'Plain materials and custom packaging available for small and bulk orders. Tell us your product, size and quantity — we will help you choose the right packaging.',
+          'One partner. The route that fits your business.':'Packaging solutions built around your business.',
+          'Whether you are buying plain material in volume or taking a finished package to market, choose the path that matches your next decision.':'Whether you need plain materials, custom printing or finished packaging, we make it easier to choose, order and move forward.',
+          'Take your package to market.':'Custom Packaging for Your Product',
+          'LD nylon, food-grade pouches, printed film, branded sacks, labels, and market-ready package formats.':'Custom packaging formats designed around your product, specifications and brand.',
+          'See this service':'Explore Packaging',
+          'Buy the layer before you print it.':'Plain Packaging Materials',
+          'Plain carton, sacks, nylon, liners, and related materials in bales and large orders. Ask about MOQ.':'Reliable plain materials for businesses buying in volume, including sacks, nylon, liners and related packaging materials.',
+          'Choose the right medium.':'Not Sure What You Need?',
+          'Compare carton, nylon, film, woven sack, pouch, and more before you commit to an order.':'Tell us what you are packaging and your quantity. We can help you identify the right material and format before you order.',
+          'Packaging decisions for products that have somewhere to go.':'The right packaging for the product you sell.',
+          'We serve food and agriculture businesses, fertilizer and charcoal companies, cement producers, and every industry that uses sacks or needs dependable packing materials.':'From food and agriculture to charcoal, fertilizer, cement and other sack-using businesses, we provide dependable packaging for products that need to be protected, transported and sold.',
+          'Find your packaging route':'Talk to a Packaging Specialist',
+          'Packaging, product thinking, and presentation in one conversation.':'Packaging that works for your product and your brand.',
+          'We work with a versatile product studio partner supporting globally competitive product development and presentation. Bring the requirement early and let the right packaging route take shape with the product.':'We help you choose packaging that protects your product, fits your specifications and presents your brand professionally. Start the conversation before you place your order.',
+          'Tell us what you make, pack, or need to move.':'Ready to package your product better?',
+          'Start on WhatsApp':'Get Your Quote on WhatsApp',
+          'Packaging your product.<br>Protecting your brand.<br>Creating value.':'Packaging your product.<br>Protecting your brand.<br>Creating value.'
+          }
+          for a,b in replacements.items():
+              if a not in s and a != b:
+                  print('MISSING:',a[:80])
+              s=s.replace(a,b)
+          p.write_text(s)
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Improve homepage copy and customer conversion" || exit 0
+          git push
