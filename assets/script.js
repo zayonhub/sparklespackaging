@@ -1,50 +1,279 @@
-// Sparkles Packaging — shared site behaviour (no build step, no framework)
+/* Sparkles Packaging — shared site behaviour
+ * No framework. No build step. One small, maintainable site script.
+ */
 
-const WHATSAPP_NUMBER = "2348065617524";
-function openWhatsApp(message){const url=`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;window.open(url,"_blank","noopener,noreferrer");}
-document.addEventListener("click",event=>{const trigger=event.target.closest("[data-whatsapp]");if(!trigger)return;event.preventDefault();openWhatsApp(trigger.getAttribute("data-whatsapp"));});
-const ICON_MENU='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
-const ICON_CLOSE='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>';
-(function initNav(){const toggle=document.querySelector(".menu-toggle"),nav=document.querySelector(".main-nav");if(!toggle||!nav)return;toggle.addEventListener("click",()=>{const isOpen=nav.classList.toggle("is-open");toggle.setAttribute("aria-expanded",String(isOpen));toggle.innerHTML=isOpen?ICON_CLOSE:ICON_MENU;});nav.querySelectorAll(".nav-link").forEach(link=>link.addEventListener("click",()=>{nav.classList.remove("is-open");toggle.setAttribute("aria-expanded","false");toggle.innerHTML=ICON_MENU;}));})();
-(function initContactForm(){const form=document.querySelector("#contact-form");if(!form)return;form.addEventListener("submit",event=>{event.preventDefault();const data=new FormData(form);const company=data.get("company")||"Not provided",requirement=data.get("requirement")||"Not provided";openWhatsApp(`Hello Sparkles, I would like to speak with the packaging team. Company: ${company}. Requirement: ${requirement}.`);document.querySelector("#contact-form-wrap").hidden=true;document.querySelector("#contact-success").hidden=false;});})();
-(function markActiveNav(){const path=window.location.pathname.split("/").pop()||"index.html";document.querySelectorAll(".nav-link").forEach(link=>{const href=link.getAttribute("href");if(href===path||(path===""&&href==="index.html"))link.classList.add("is-active");});})();
-(function siteUpgrade(){const style=document.createElement("style");style.textContent=`
-.wave-divider,.wave-divider-white{display:none!important;height:0!important;margin:0!important}.hero-band,.inner-hero{border-radius:0!important;clip-path:none!important;mask:none!important}
-.product-capability-strip{display:grid;grid-template-columns:repeat(4,1fr);max-width:900px;margin:0 auto 34px;background:#0C1668;color:#fff;border-radius:20px;overflow:hidden;box-shadow:0 14px 32px rgba(12,22,104,.14)}.product-capability-strip>div{padding:17px 19px;border-right:1px solid rgba(255,255,255,.12)}.product-capability-strip>div:last-child{border-right:0}.product-capability-strip strong{display:block;font:800 16px Manrope,sans-serif}.product-capability-strip span{display:block;margin-top:3px;font:500 11px Inter,sans-serif;color:rgba(255,255,255,.68)}
-.product-filters{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:22px auto 14px;width:100%}.product-filter{border:1px solid rgba(12,22,104,.16);background:#fff;color:#0C1668;border-radius:999px;padding:9px 14px;font:700 12px/1.2 Inter,sans-serif;cursor:pointer}.product-filter:hover,.product-filter.is-active{background:#0C1668;color:#fff;border-color:#0C1668}.product-search-wrap{position:relative;display:flex;align-items:center;max-width:680px;margin:12px auto 0}.product-search-wrap>svg{position:absolute;left:16px;color:#6B5D4F}.product-search{width:100%;border:1px solid rgba(12,22,104,.16);border-radius:999px;background:#fff;padding:12px 90px 12px 45px;font:500 14px Inter,sans-serif;outline:none}.product-search:focus{border-color:#1B33E0;box-shadow:0 0 0 4px rgba(27,51,224,.08)}.product-search-count{position:absolute;right:16px;font-size:11px;font-weight:700;color:#6B5D4F}
-.modern-product-card{position:relative;overflow:hidden;transition:transform .28s cubic-bezier(.2,.75,.25,1),box-shadow .28s ease}.modern-product-card:hover{transform:translateY(-6px);box-shadow:0 20px 42px rgba(12,22,104,.15)}.modern-product-card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,#0C1668,#1B33E0,#F5901F);z-index:3}.modern-product-image{position:relative;aspect-ratio:3/2!important;overflow:hidden!important;background:#f4f7ff!important}.modern-product-image>img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important;transition:transform .45s ease}.modern-product-card:hover .modern-product-image>img{transform:scale(1.025)}.modern-product-body{min-height:250px!important}.modern-product-body .portfolio-link{color:#0C1668!important;font-weight:800!important}.modern-product-card.reveal-card{opacity:0;transform:translateY(22px) scale(.985)}.modern-product-card.reveal-card.is-visible{opacity:1;transform:translateY(0) scale(1);transition:opacity .55s ease,transform .55s cubic-bezier(.2,.75,.25,1),box-shadow .28s ease}.modern-product-card.reveal-card.is-visible:hover{transform:translateY(-6px)}.product-mobile-cta{display:none}
-@media(max-width:860px){.product-capability-strip{grid-template-columns:repeat(2,1fr)}.product-capability-strip>div:nth-child(2){border-right:0}.product-capability-strip>div:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.12)}}
-@media(max-width:720px){.container{padding-left:18px;padding-right:18px}.product-filters{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 2px 7px}.product-filters::-webkit-scrollbar{display:none}.product-filter{flex:0 0 auto}.product-search-wrap{margin-top:8px}.product-capability-strip{border-radius:16px;margin-bottom:24px}.product-capability-strip>div{padding:14px 12px}.product-capability-strip strong{font-size:14px}.product-capability-strip span{font-size:10px}.modern-products-grid{grid-template-columns:1fr!important;gap:16px!important}.modern-product-image{aspect-ratio:16/10!important}.modern-product-body{min-height:220px!important;padding:19px!important}.modern-product-body h2{font-size:21px!important}.modern-product-body p{font-size:13.5px!important}.portfolio-link{width:100%;text-align:center;padding:12px!important}.product-mobile-cta{display:flex;position:fixed;left:14px;right:14px;bottom:14px;z-index:45;justify-content:center;background:#F5901F;color:#fff;border:0;border-radius:999px;padding:14px 20px;font-weight:800;font-size:15px;box-shadow:0 12px 30px rgba(12,22,104,.22)}body{padding-bottom:72px}.site-footer{padding-bottom:10px!important}}
-@media(prefers-reduced-motion:reduce){.modern-product-card,.modern-product-card.reveal-card,.modern-product-card.reveal-card.is-visible,.modern-product-image>img{transition:none!important;transform:none!important;opacity:1!important}}
-`;document.head.appendChild(style);
-const grid=document.querySelector(".modern-products-grid");if(grid){const cards=[...grid.querySelectorAll(".modern-product-card")];cards.forEach((card,i)=>{const frame=card.querySelector(".modern-product-image");if(frame){const img=document.createElement("img");img.src=`assets/img/products/${String(i+1).padStart(2,"0")}.jpg`;img.alt=card.querySelector("h2")?.textContent.trim()||"Sparkles Packaging product";img.width=900;img.height=600;img.loading=i<2?"eager":"lazy";img.decoding="async";if(i===0)img.fetchPriority="high";frame.replaceChildren(img)}const cta=card.querySelector(".portfolio-link");if(cta)cta.textContent="Get a Quote →";card.classList.add("reveal-card");card.style.transitionDelay=`${Math.min(i*45,360)}ms`});const heading=grid.parentElement.querySelector(".section-heading");if(heading){const capability=document.createElement("div");capability.className="product-capability-strip";capability.innerHTML=`<div><strong>16 categories</strong><span>Packaging range</span></div><div><strong>Plain + printed</strong><span>Brand-ready options</span></div><div><strong>Bulk orders</strong><span>MOQ guidance</span></div><div><strong>Get a quote</strong><span>Fast WhatsApp route</span></div>`;heading.parentElement.insertBefore(capability,heading);const search=document.createElement("div");search.className="product-search-wrap";search.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><input class="product-search" type="search" placeholder="Search products…" aria-label="Search products"><span class="product-search-count"></span>`;heading.appendChild(search);const categories=["All",...new Set(cards.map(c=>c.querySelector(".product-category")?.textContent.trim()).filter(Boolean))];const filters=document.createElement("div");filters.className="product-filters";filters.setAttribute("aria-label","Product categories");filters.innerHTML=categories.map((x,i)=>`<button type="button" class="product-filter${i===0?" is-active":""}" data-filter="${x.replace(/"/g,"&quot;")}">${x}</button>`).join("");heading.appendChild(filters);const apply=()=>{const selected=filters.querySelector(".is-active")?.dataset.filter||"All",q=search.querySelector("input").value.trim().toLowerCase();let shown=0;cards.forEach(c=>{const cat=c.querySelector(".product-category")?.textContent.trim()||"",text=c.textContent.toLowerCase(),ok=(selected==="All"||cat===selected)&&(!q||text.includes(q));c.hidden=!ok;if(ok)shown++});search.querySelector(".product-search-count").textContent=`${shown} shown`};filters.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;filters.querySelectorAll("button").forEach(x=>x.classList.remove("is-active"));b.classList.add("is-active");apply()});search.querySelector("input").addEventListener("input",apply);apply()}if("IntersectionObserver"in window){const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("is-visible");observer.unobserve(e.target)}}),{rootMargin:"0px 0px -8% 0px",threshold:.08});cards.forEach(c=>observer.observe(c))}else cards.forEach(c=>c.classList.add("is-visible"));const sticky=document.createElement("button");sticky.className="product-mobile-cta";sticky.type="button";sticky.textContent="Get a Quote";sticky.setAttribute("data-whatsapp","Hello Sparkles, I would like a packaging quote. Product: __. Size/specification: __. Quantity: __. Delivery location: __.");document.body.appendChild(sticky)}})();
+const WHATSAPP_NUMBER = '2348065617524';
+const PRIMARY_NAV = [
+  ['index.html', 'Home'],
+  ['products.html', 'Products'],
+  ['services.html', 'Services'],
+  ['about.html', 'About'],
+  ['contact.html', 'Contact']
+];
 
-/* Homepage visual + content upgrade v3 */
-(function initHomepageV3(){
-  if(!document.querySelector(".hero-band"))return;
-  const style=document.createElement("style");style.textContent=`
-  .home-v3{position:relative;overflow:hidden}.home-v3 .container{position:relative;z-index:1}
-  .home-v3-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.home-v3-card{background:#fff;border:1px solid rgba(27,20,14,.08);border-radius:22px;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease}.home-v3-card:hover{transform:translateY(-7px);box-shadow:0 18px 38px rgba(27,20,14,.1)}.home-v3-card img{width:100%;height:190px;object-fit:cover;transition:transform .55s ease}.home-v3-card:hover img{transform:scale(1.035)}.home-v3-card-body{padding:19px}.home-v3-card h3{font-size:19px;line-height:1.15;margin-bottom:7px}.home-v3-card p{font-size:13px;color:var(--ink-soft);line-height:1.5}.home-v3-link{display:inline-flex;margin-top:14px;font-size:12px;font-weight:800;color:var(--blue);align-items:center}
-  .home-v3-kicker{margin-bottom:14px}.home-v3-heading{max-width:760px;margin-bottom:32px}.home-v3-heading h2{font-size:clamp(32px,4vw,52px);line-height:1.04;margin-bottom:13px}.home-v3-heading p{font-size:15.5px;color:var(--ink-soft);max-width:650px}
-  .home-v3-benefits{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.home-v3-benefit{padding:26px;background:var(--paper);border-radius:20px;border:1px solid rgba(27,20,14,.08);transition:transform .25s ease,box-shadow .25s ease}.home-v3-benefit:hover{transform:translateY(-5px);box-shadow:0 15px 32px rgba(27,20,14,.08)}.home-v3-num{font:800 12px Manrope;color:var(--orange);letter-spacing:.08em;margin-bottom:17px}.home-v3-benefit h3{font-size:18px;line-height:1.2;margin-bottom:8px}.home-v3-benefit p{font-size:13px;color:var(--ink-soft);line-height:1.55}
-  .home-v3-process{display:grid;grid-template-columns:repeat(4,1fr);position:relative}.home-v3-step{padding:4px 28px 5px 0}.home-v3-step-num{font:800 12px Manrope;color:var(--orange);letter-spacing:.07em;margin-bottom:13px}.home-v3-step h3{font-size:19px;line-height:1.2;margin-bottom:7px}.home-v3-step p{font-size:13px;color:var(--ink-soft);line-height:1.55}.home-v3-step:not(:last-child){border-right:1px solid rgba(27,20,14,.1);margin-right:28px}
-  .home-v3-cta{border-radius:28px;padding:52px;background:linear-gradient(125deg,#0C1668,#1B33E0);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:30px;overflow:hidden;position:relative}.home-v3-cta::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;right:-100px;top:-150px;background:rgba(245,144,31,.16)}.home-v3-cta h2{font-size:clamp(30px,4vw,48px);line-height:1.04;max-width:15ch;margin-bottom:10px}.home-v3-cta p{max-width:590px;color:rgba(255,255,255,.75);font-size:14px}.home-v3-cta .button{position:relative;z-index:2}
-  .home-v3-reveal{opacity:0;transform:translateY(25px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.75,.25,1)}.home-v3-reveal.is-visible{opacity:1;transform:none}.home-v3-stagger>*{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease}.home-v3-stagger.is-visible>*{opacity:1;transform:none}.home-v3-stagger.is-visible>*:nth-child(2){transition-delay:.07s}.home-v3-stagger.is-visible>*:nth-child(3){transition-delay:.14s}.home-v3-stagger.is-visible>*:nth-child(4){transition-delay:.21s}
-  .home-scrollbar{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--orange);transform:scaleX(0);transform-origin:left center;z-index:100;pointer-events:none;box-shadow:0 1px 9px rgba(245,144,31,.35)}
-  .home-hero-scroll{display:flex;align-items:center;justify-content:center;gap:9px;color:rgba(255,255,255,.62);font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding:0 0 28px}.home-hero-scroll span{width:23px;height:36px;border:1px solid rgba(255,255,255,.35);border-radius:999px;display:flex;justify-content:center;padding-top:7px}.home-hero-scroll i{width:4px;height:7px;border-radius:99px;background:var(--orange);animation:homeDot 1.6s ease-in-out infinite}@keyframes homeDot{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(9px);opacity:1}}
-  @media(max-width:900px){.home-v3-grid{grid-template-columns:repeat(2,1fr)}.home-v3-benefits{grid-template-columns:repeat(2,1fr)}.home-v3-process{grid-template-columns:repeat(2,1fr);row-gap:28px}.home-v3-step:nth-child(2){border-right:0}.home-v3-step:nth-child(3){border-right:1px solid rgba(27,20,14,.1)}.home-v3-cta{display:block}}
-  @media(max-width:720px){.home-v3-grid,.home-v3-benefits,.home-v3-process{grid-template-columns:1fr}.home-v3-card img{height:210px}.home-v3-step{padding:0 0 22px;border-right:0!important;border-bottom:1px solid rgba(27,20,14,.1);margin-right:0!important}.home-v3-step:last-child{border-bottom:0}.home-v3-cta{padding:30px 23px;border-radius:22px}.home-v3-cta .button{margin-top:20px}.home-v3-heading h2{font-size:34px}}
-  @media(prefers-reduced-motion:reduce){.home-v3-reveal,.home-v3-stagger>*,.home-v3-card,.home-v3-card img,.home-v3-benefit{transition:none!important;transform:none!important;opacity:1!important}.home-hero-scroll i{animation:none!important}}
-  `;document.head.appendChild(style);
-  const copy=document.querySelector(".home-hero-copy");if(copy){const h=copy.querySelector("h1"),p=copy.querySelector(".hero-lede"),proof=copy.querySelector(".home-hero-proof"),primary=copy.querySelector(".button-primary"),secondary=copy.querySelector(".button-quiet");if(h)h.innerHTML='Packaging that protects your product — <span class="signal-word" style="color:#F5901F">and sells your brand.</span>';if(p)p.textContent="From woven and laminated sacks to nylon bags, pouches, flexible film, labels and custom packaging, Sparkles helps businesses source, brand and move the packaging they need.";if(proof)proof.innerHTML='<strong>Plain or printed.</strong> Commercial quantities. Clear specifications. Reliable packaging support from order to delivery.';if(primary){primary.innerHTML='Get a Packaging Quote <span style="margin-left:8px">→</span>';primary.setAttribute("data-whatsapp","Hello Sparkles, I would like a packaging quote. Product: __. Size/specification: __. Quantity: __. Delivery location: __.");}if(secondary){secondary.textContent='Explore Products →';secondary.href='products.html';}}
-  const hero=document.querySelector(".hero-band");if(hero&&!hero.querySelector(".home-hero-scroll")){const s=document.createElement("div");s.className="home-hero-scroll";s.innerHTML='<span><i></i></span><em>Scroll to explore</em>';hero.appendChild(s)}
-  const trust=document.querySelector(".home-trust-strip");if(trust){const vals=[["16+","Packaging categories"],["Plain + printed","Custom branding"],["Bulk supply","Commercial quantities"],["Nigeria + beyond","Delivery coordination"]];trust.querySelectorAll(".home-trust-grid>div").forEach((el,i)=>{if(!vals[i])return;el.querySelector("strong").textContent=vals[i][0];el.querySelector("span").textContent=vals[i][1]})}
-  const pathways=document.querySelector(".pathways-section");if(pathways){const h=pathways.querySelector("h2"),p=pathways.querySelector(".section-heading-row>p"),cards=pathways.querySelectorAll(".route-card");if(h)h.textContent="What do you need for your product?";if(p)p.textContent="Start with the job you need done. We will help you find the right packaging, material or custom solution.";const data=[["I need packaging","Find sacks, nylon bags, pouches, film, labels, retail bags and more.","Browse products"],["I need packaging materials","Source plain sacks, nylon and related materials for commercial quantities.","View materials"],["I need help choosing","Compare packaging options before you commit to an order.","Talk to a packaging partner"]];cards.forEach((c,i)=>{if(!data[i])return;c.querySelector("h3").textContent=data[i][0];c.querySelector("p").textContent=data[i][1];const a=c.querySelector(".route-card-link");if(a)a.childNodes[0].textContent=data[i][2]+" "})}
-  const featured=document.createElement("section");featured.className="home-v3 home-v3-reveal section-pad";featured.innerHTML=`<div class="container"><div class="home-v3-heading"><p class="eyebrow eyebrow-orange home-v3-kicker">Featured packaging</p><h2>Packaging solutions built for real business.</h2><p>Explore a few of the products businesses come to Sparkles for. Need something different? We can work from your specification.</p></div><div class="home-v3-grid home-v3-stagger"><a class="home-v3-card" href="products.html"><img src="assets/img/products/02.jpg" alt="Laminated sacks"><div class="home-v3-card-body"><h3>Laminated Sacks</h3><p>Durable, moisture-resistant sacks with a clean surface for strong product branding.</p><span class="home-v3-link">Explore products →</span></div></a><a class="home-v3-card" href="products.html"><img src="assets/img/products/05.jpg" alt="LD nylon bags"><div class="home-v3-card-body"><h3>LD Nylon Bags</h3><p>Flexible packaging for food, frozen products, retail and everyday business use.</p><span class="home-v3-link">Explore products →</span></div></a><a class="home-v3-card" href="products.html"><img src="assets/img/products/07.jpg" alt="BOPP flexible film"><div class="home-v3-card-body"><h3>BOPP &amp; Flexible Film</h3><p>Plain or printed film for flexible packaging, production and brand presentation.</p><span class="home-v3-link">Explore products →</span></div></a><a class="home-v3-card" href="products.html"><img src="assets/img/products/11.jpg" alt="Bottle and product labels"><div class="home-v3-card-body"><h3>Labels &amp; Stickers</h3><p>Professional product identification and branding for bottles, packs and containers.</p><span class="home-v3-link">Explore products →</span></div></a></div></div>`;trust?.after(featured);
-  const benefits=document.createElement("section");benefits.className="home-v3 home-v3-reveal section-pad";benefits.style.background="var(--paper)";benefits.innerHTML=`<div class="container"><div class="home-v3-heading"><p class="eyebrow eyebrow-blue">Why Sparkles</p><h2>More than a packaging supplier.</h2><p>We make the process easier—from choosing the right format to getting a finished package ready for market.</p></div><div class="home-v3-benefits home-v3-stagger"><article class="home-v3-benefit"><div class="home-v3-num">01</div><h3>Quality-focused</h3><p>Packaging selected for strength, protection, presentation and the demands of commercial use.</p></article><article class="home-v3-benefit"><div class="home-v3-num">02</div><h3>Custom branding</h3><p>Plain materials or packaging printed around your brand, product and market requirements.</p></article><article class="home-v3-benefit"><div class="home-v3-num">03</div><h3>Built for volume</h3><p>Clear guidance for commercial quantities, specifications and production requirements.</p></article><article class="home-v3-benefit"><div class="home-v3-num">04</div><h3>From order to delivery</h3><p>We coordinate the packaging journey so you know what is needed at every stage.</p></article></div></div>`;document.querySelector(".home-industry-section")?.before(benefits);
-  const process=document.createElement("section");process.className="home-v3 home-v3-reveal section-pad";process.innerHTML=`<div class="container"><div class="home-v3-heading"><p class="eyebrow">Simple process</p><h2>Getting your packaging is straightforward.</h2><p>Tell us what you need. We help you confirm the specification, price it and move the order forward.</p></div><div class="home-v3-process"><article class="home-v3-step"><div class="home-v3-step-num">01 — TELL US</div><h3>Share your requirement</h3><p>Product, size, quantity, material, printing and delivery location.</p></article><article class="home-v3-step"><div class="home-v3-step-num">02 — CONFIRM</div><h3>Choose the right option</h3><p>We help you settle the packaging type and specification.</p></article><article class="home-v3-step"><div class="home-v3-step-num">03 — QUOTE</div><h3>Receive your price</h3><p>Get clear pricing based on your confirmed quantity and specification.</p></article><article class="home-v3-step"><div class="home-v3-step-num">04 — MOVE</div><h3>Production &amp; delivery</h3><p>We coordinate the next step and keep your packaging moving.</p></article></div></div>`;document.querySelector(".home-industry-section")?.before(process);
-  const partner=document.querySelector(".home-partnership-section");if(partner)partner.remove();
-  const final=document.querySelector(".home-final-cta");if(final){const e=final.querySelector(".eyebrow"),h=final.querySelector("h2"),b=final.querySelector(".button-primary");if(e)e.textContent="Ready to package your product?";if(h)h.textContent="Tell us what you make. We will help you package it.";if(b)b.innerHTML="Get My Packaging Quote →"}
-  const progress=document.createElement("div");progress.className="home-scrollbar";document.body.appendChild(progress);const update=()=>{const max=document.documentElement.scrollHeight-window.innerHeight;progress.style.transform=`scaleX(${max>0?window.scrollY/max:0})`};window.addEventListener("scroll",update,{passive:true});window.addEventListener("resize",update);update();
-  const reveal=document.querySelectorAll(".home-v3-reveal,.home-v3-stagger");if(!(typeof IntersectionObserver!=="undefined")){reveal.forEach(x=>x.classList.add("is-visible"));return}const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("is-visible");io.unobserve(e.target)}}),{rootMargin:"0px 0px -9% 0px",threshold:.08});reveal.forEach(x=>io.observe(x));
-})();
+const ICON_MENU = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>';
+const ICON_CLOSE = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>';
+
+function openWhatsApp(message) {
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function currentPage() {
+  return window.location.pathname.split('/').pop() || 'index.html';
+}
+
+function buildPrimaryNav() {
+  document.querySelectorAll('.main-nav').forEach((nav) => {
+    const mobileCta = nav.querySelector('.mobile-only');
+    nav.querySelectorAll('.nav-link').forEach((link) => link.remove());
+
+    const fragment = document.createDocumentFragment();
+    PRIMARY_NAV.forEach(([href, label]) => {
+      const link = document.createElement('a');
+      link.className = 'nav-link';
+      link.href = href;
+      link.textContent = label;
+      if (href === currentPage()) link.classList.add('is-active');
+      fragment.appendChild(link);
+    });
+
+    nav.insertBefore(fragment, mobileCta || null);
+  });
+}
+
+function buildFooterNavigation() {
+  document.querySelectorAll('.site-footer').forEach((footer) => {
+    const label = [...footer.querySelectorAll('.footer-label')]
+      .find((el) => el.textContent.trim().toLowerCase() === 'explore');
+    const column = label?.parentElement;
+    if (!column) return;
+
+    column.querySelectorAll('a:not(.footer-brand)').forEach((link) => link.remove());
+    PRIMARY_NAV.forEach(([href, text]) => {
+      const link = document.createElement('a');
+      link.href = href;
+      link.textContent = text;
+      column.appendChild(link);
+    });
+  });
+}
+
+function initMobileNav() {
+  document.querySelectorAll('.nav-inner').forEach((header) => {
+    const toggle = header.querySelector('.menu-toggle');
+    const nav = header.querySelector('.main-nav');
+    if (!toggle || !nav || toggle.dataset.bound) return;
+
+    toggle.dataset.bound = 'true';
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.innerHTML = open ? ICON_CLOSE : ICON_MENU;
+    });
+
+    nav.addEventListener('click', (event) => {
+      if (!event.target.closest('.nav-link')) return;
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.innerHTML = ICON_MENU;
+    });
+  });
+}
+
+function initWhatsAppTriggers() {
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-whatsapp]');
+    if (!trigger) return;
+    event.preventDefault();
+    openWhatsApp(trigger.getAttribute('data-whatsapp') || 'Hello Sparkles, I would like a packaging quote.');
+  });
+}
+
+function initContactForm() {
+  const form = document.querySelector('#contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const company = data.get('company') || 'Not provided';
+    const requirement = data.get('requirement') || 'Not provided';
+    openWhatsApp(`Hello Sparkles, I would like to speak with the packaging team. Company: ${company}. Requirement: ${requirement}.`);
+    const wrap = document.querySelector('#contact-form-wrap');
+    const success = document.querySelector('#contact-success');
+    if (wrap) wrap.hidden = true;
+    if (success) success.hidden = false;
+  });
+}
+
+function initProductCatalogue() {
+  const grid = document.querySelector('.modern-products-grid');
+  if (!grid) return;
+
+  const cards = [...grid.querySelectorAll('.modern-product-card')];
+  cards.forEach((card, index) => {
+    const frame = card.querySelector('.modern-product-image');
+    if (frame) {
+      const image = document.createElement('img');
+      image.src = `assets/img/products/${String(index + 1).padStart(2, '0')}.jpg`;
+      image.alt = card.querySelector('h2')?.textContent.trim() || 'Sparkles Packaging product';
+      image.width = 900;
+      image.height = 600;
+      image.loading = index < 2 ? 'eager' : 'lazy';
+      image.decoding = 'async';
+      frame.replaceChildren(image);
+    }
+
+    const cta = card.querySelector('.portfolio-link');
+    if (cta) cta.textContent = 'Get a Quote →';
+  });
+
+  const heading = grid.parentElement?.querySelector('.section-heading');
+  if (!heading || heading.querySelector('.product-search-wrap')) return;
+
+  const capability = document.createElement('div');
+  capability.className = 'product-capability-strip';
+  capability.innerHTML = `
+    <div><strong>16+ categories</strong><span>Packaging range</span></div>
+    <div><strong>Plain + printed</strong><span>Brand-ready options</span></div>
+    <div><strong>Bulk supply</strong><span>Commercial quantities</span></div>
+    <div><strong>WhatsApp quotes</strong><span>Fast enquiry route</span></div>`;
+  heading.parentElement.insertBefore(capability, heading);
+
+  const searchWrap = document.createElement('div');
+  searchWrap.className = 'product-search-wrap';
+  searchWrap.innerHTML = '<input class="product-search" type="search" placeholder="Search products…" aria-label="Search products"><span class="product-search-count"></span>';
+  heading.appendChild(searchWrap);
+
+  const categories = ['All', ...new Set(cards.map((card) => card.querySelector('.product-category')?.textContent.trim()).filter(Boolean))];
+  const filters = document.createElement('div');
+  filters.className = 'product-filters';
+  filters.setAttribute('aria-label', 'Product categories');
+  filters.innerHTML = categories.map((category, index) => `<button type="button" class="product-filter${index === 0 ? ' is-active' : ''}" data-filter="${category.replace(/"/g, '&quot;')}">${category}</button>`).join('');
+  heading.appendChild(filters);
+
+  const applyFilters = () => {
+    const selected = filters.querySelector('.is-active')?.dataset.filter || 'All';
+    const query = searchWrap.querySelector('input').value.trim().toLowerCase();
+    let shown = 0;
+
+    cards.forEach((card) => {
+      const category = card.querySelector('.product-category')?.textContent.trim() || '';
+      const matches = (selected === 'All' || category === selected) && (!query || card.textContent.toLowerCase().includes(query));
+      card.hidden = !matches;
+      if (matches) shown += 1;
+    });
+
+    searchWrap.querySelector('.product-search-count').textContent = `${shown} shown`;
+  };
+
+  filters.addEventListener('click', (event) => {
+    const button = event.target.closest('.product-filter');
+    if (!button) return;
+    filters.querySelectorAll('.product-filter').forEach((item) => item.classList.remove('is-active'));
+    button.classList.add('is-active');
+    applyFilters();
+  });
+  searchWrap.querySelector('input').addEventListener('input', applyFilters);
+  applyFilters();
+
+  const mobileCta = document.createElement('button');
+  mobileCta.className = 'product-mobile-cta';
+  mobileCta.type = 'button';
+  mobileCta.textContent = 'Get a Packaging Quote';
+  mobileCta.setAttribute('data-whatsapp', 'Hello Sparkles, I would like a packaging quote. Product: __. Size/specification: __. Quantity: __. Delivery location: __.');
+  document.body.appendChild(mobileCta);
+}
+
+function initHomepage() {
+  if (!document.querySelector('.hero-band')) return;
+
+  const copy = document.querySelector('.home-hero-copy');
+  if (copy) {
+    const heading = copy.querySelector('h1');
+    const lede = copy.querySelector('.hero-lede');
+    const proof = copy.querySelector('.home-hero-proof');
+    const primary = copy.querySelector('.button-primary');
+    const secondary = copy.querySelector('.button-quiet');
+
+    if (heading) heading.innerHTML = 'Packaging that protects your product — <span class="signal-word" style="color:#F5901F">and sells your brand.</span>';
+    if (lede) lede.textContent = 'From woven and laminated sacks to nylon bags, pouches, flexible film, labels and custom packaging, Sparkles helps businesses source, brand and move the packaging they need.';
+    if (proof) proof.innerHTML = '<strong>Plain or printed.</strong> Commercial quantities. Clear specifications. Reliable packaging support from order to delivery.';
+    if (primary) {
+      primary.innerHTML = 'Get a Packaging Quote <span style="margin-left:8px">→</span>';
+      primary.setAttribute('data-whatsapp', 'Hello Sparkles, I would like a packaging quote. Product: __. Size/specification: __. Quantity: __. Delivery location: __.');
+    }
+    if (secondary) {
+      secondary.textContent = 'Explore Products →';
+      secondary.href = 'products.html';
+    }
+  }
+
+  const videoTiles = document.querySelectorAll('.home-video-mosaic .video-tile');
+  if (videoTiles.length > 1) {
+    videoTiles.forEach((tile, index) => tile.classList.toggle('is-supporting-video', index > 0));
+  }
+
+  const trust = document.querySelector('.home-trust-strip');
+  if (trust) {
+    const values = [['16+', 'Packaging categories'], ['Plain + printed', 'Custom branding'], ['Bulk supply', 'Commercial quantities'], ['Nigeria + beyond', 'Delivery coordination']];
+    trust.querySelectorAll('.home-trust-grid > div').forEach((item, index) => {
+      if (!values[index]) return;
+      item.querySelector('strong').textContent = values[index][0];
+      item.querySelector('span').textContent = values[index][1];
+    });
+  }
+
+  const finalCta = document.querySelector('.home-final-cta');
+  if (finalCta) {
+    const heading = finalCta.querySelector('h2');
+    const button = finalCta.querySelector('.button-primary');
+    if (heading) heading.textContent = 'Tell us what you make. We will help you package it.';
+    if (button) button.innerHTML = 'Get My Packaging Quote →';
+  }
+}
+
+function addSitePolish() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .home-video-mosaic .video-primary { min-height: clamp(420px, 58vw, 680px); }
+    .home-video-mosaic .video-primary video { width:100%; height:100%; min-height:inherit; object-fit:cover; }
+    .home-video-mosaic .video-stack { display:grid; grid-template-rows:1fr 1fr; gap:14px; }
+    .home-video-mosaic .is-supporting-video { min-height:0; }
+    .product-capability-strip { display:grid; grid-template-columns:repeat(4,1fr); max-width:900px; margin:0 auto 32px; background:#0C1668; color:#fff; border-radius:20px; overflow:hidden; box-shadow:0 14px 32px rgba(12,22,104,.14); }
+    .product-capability-strip > div { padding:17px 19px; border-right:1px solid rgba(255,255,255,.12); }
+    .product-capability-strip > div:last-child { border-right:0; }
+    .product-capability-strip strong { display:block; font:800 15px Manrope,sans-serif; }
+    .product-capability-strip span { display:block; margin-top:4px; font:500 11px Inter,sans-serif; color:rgba(255,255,255,.7); }
+    .product-search-wrap { position:relative; max-width:680px; margin:14px auto 0; }
+    .product-search { width:100%; box-sizing:border-box; border:1px solid rgba(12,22,104,.16); border-radius:999px; background:#fff; padding:13px 90px 13px 18px; font:500 14px Inter,sans-serif; outline:none; }
+    .product-search:focus { border-color:#1B33E0; box-shadow:0 0 0 4px rgba(27,51,224,.08); }
+    .product-search-count { position:absolute; right:18px; top:50%; transform:translateY(-50%); font:700 11px Inter,sans-serif; color:#6B5D4F; }
+    .product-filters { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin:14px auto 4px; }
+    .product-filter { border:1px solid rgba(12,22,104,.16); background:#fff; color:#0C1668; border-radius:999px; padding:9px 14px; font:700 12px/1.2 Inter,sans-serif; cursor:pointer; }
+    .product-filter:hover,.product-filter.is-active { background:#0C1668; color:#fff; border-color:#0C1668; }
+    .modern-product-card { position:relative; overflow:hidden; transition:transform .25s ease,box-shadow .25s ease; }
+    .modern-product-card:hover { transform:translateY(-5px); box-shadow:0 18px 38px rgba(12,22,104,.12); }
+    .modern-product-image { aspect-ratio:3/2!important; overflow:hidden!important; background:#f4f7ff!important; }
+    .modern-product-image img { width:100%!important; height:100%!important; object-fit:cover!important; display:block!important; }
+    .product-mobile-cta { display:none; }
+    @media(max-width:860px){ .product-capability-strip{grid-template-columns:repeat(2,1fr)} .product-capability-strip>div:nth-child(2){border-right:0} }
+    @media(max-width:720px){ .home-video-mosaic .video-primary{min-height:360px}.home-video-mosaic .video-stack{display:none}.product-filters{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:3px 2px 8px}.product-filters::-webkit-scrollbar{display:none}.product-filter{flex:0 0 auto}.product-mobile-cta{display:flex;position:fixed;left:14px;right:14px;bottom:14px;z-index:45;justify-content:center;background:#F5901F;color:#fff;border:0;border-radius:999px;padding:14px 20px;font-weight:800;font-size:15px;box-shadow:0 12px 30px rgba(12,22,104,.22)} body{padding-bottom:72px}.site-footer{padding-bottom:10px!important} }
+    @media(prefers-reduced-motion:reduce){.modern-product-card{transition:none!important}.home-video-mosaic video{animation:none!important}}
+  `;
+  document.head.appendChild(style);
+}
+
+function init() {
+  buildPrimaryNav();
+  buildFooterNavigation();
+  initMobileNav();
+  initWhatsAppTriggers();
+  initContactForm();
+  initProductCatalogue();
+  initHomepage();
+  addSitePolish();
+}
+
+document.addEventListener('DOMContentLoaded', init);
