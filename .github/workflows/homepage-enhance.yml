@@ -1,7 +1,7 @@
 name: Homepage enhancement
 on:
   push:
-    branches: [homepage-video-upgrade]
+    branches: [homepage-video-upgrade, main]
 permissions:
   contents: write
 jobs:
@@ -18,7 +18,7 @@ jobs:
           s = p.read_text()
           marker = '/* SPARKLES HOMEPAGE CONVERSION UPGRADE */'
           if marker not in s:
-              s += '''\n\n/* SPARKLES HOMEPAGE CONVERSION UPGRADE */\n@media (min-width: 760px){\n  .home-hero-grid{\n    grid-template-columns:minmax(330px,0.82fr) minmax(0,1.18fr);\n    align-items:center;\n  }\n  .home-hero-visual{\n    transform:translateX(8px);\n  }\n  .home-video-mosaic{\n    height:560px;\n  }\n  .video-primary{\n    width:calc(64% - 8px);\n  }\n  .video-stack{\n    width:calc(36% - 8px);\n  }\n}\n@media (min-width:1100px){\n  .home-video-mosaic{\n    height:620px;\n  }\n}\n@media (max-width:759px){\n  .home-video-mosaic{\n    padding-bottom:42px;\n  }\n  .video-primary{\n    height:280px;\n  }\n  .video-secondary,.video-tertiary{\n    height:180px;\n  }\n}\n.home-hero-copy .button-primary{\n  box-shadow:0 10px 24px rgba(245,144,31,0.28);\n}\n.home-hero-copy .button-primary:hover{\n  box-shadow:0 12px 28px rgba(245,144,31,0.38);\n}\n'''
+              s += '''\n\n/* SPARKLES HOMEPAGE CONVERSION UPGRADE */\n@media (min-width: 760px){\n  .home-hero-grid{\n    grid-template-columns:minmax(330px,0.82fr) minmax(0,1.18fr);\n    align-items:center;\n  }\n  .home-hero-visual{ transform:translateX(8px); }\n  .home-video-mosaic{ height:560px; }\n  .video-primary{ width:calc(64% - 8px); }\n  .video-stack{ width:calc(36% - 8px); }\n}\n@media (min-width:1100px){ .home-video-mosaic{ height:620px; } }\n@media (max-width:759px){\n  .home-video-mosaic{ padding-bottom:42px; }\n  .video-primary{ height:280px; }\n  .video-secondary,.video-tertiary{ height:180px; }\n}\n.home-hero-copy .button-primary{ box-shadow:0 10px 24px rgba(245,144,31,0.28); }\n.home-hero-copy .button-primary:hover{ box-shadow:0 12px 28px rgba(245,144,31,0.38); }\n'''
               p.write_text(s)
           PY
       - name: Commit enhancement
