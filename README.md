@@ -1,31 +1,31 @@
-# Sparkles Packaging — plain HTML site
+# Sparkles Packaging — focused static site
 
 A focused five-page static site with no framework and no build step: Home, Products, Services, About, and Contact. Legacy content pages remain available for existing URLs and are intentionally kept out of primary navigation.
 
-## Structure
-- `index.html` — home
-- `services.html`, `products.html`, `materials.html`, `portfolio.html`,
-  `consultation.html`, `contact.html`
-- `assets/styles.css` — the whole design system (self-hosted Space Grotesk,
-  Inter, and IBM Plex Mono; no external font/CDN calls)
-- `assets/script.js` — mobile nav toggle, WhatsApp deep-links, contact form
-- `assets/img/`, `assets/video/` — original media, reused as-is
-- `favicon.ico` + PNG/Apple touch icons at the root
+## Primary customer journey
+- `index.html` — conversion-focused home page
+- `products.html` — product catalogue and packaging categories
+- `services.html` — printing, branding, sourcing, bulk supply and advisory
+- `about.html` — company story, mission and values
+- `contact.html` — quote and WhatsApp contact route
 
-## Run it locally
-Any static server works, e.g.:
-```
+## Legacy content retained
+- `materials.html` — plain materials and bulk-supply information
+- `consultation.html` — packaging guidance and consultation information
+
+These pages remain available so existing links and useful content are not destroyed; they are simply no longer part of the primary navigation.
+
+## Assets
+- `assets/styles.css` — shared design system
+- `assets/script.js` — shared navigation, WhatsApp, contact form, product filtering and homepage behaviour
+- `assets/img/`, `assets/video/` — site media
+- root favicon and Apple touch icons
+
+## Run locally
+Any static server works:
+```bash
 python3 -m http.server 8080
 ```
-then open `http://localhost:8080`.
 
 ## Deploy
-Static hosting only — no Node server, no build command. On Vercel: set the
-framework to "Other", leave the build command empty, and set the output
-directory to the project root (or just drop it in as a static site).
-
-## Design direction
-The visual language borrows from the packaging/print trade itself: crop
-marks on card corners, a CMYK-style colour bar (swapped for the brand's own
-orange/red/blue/ink), and monospace spec-sheet labels — like a job docket
-rather than a generic marketing template.
+Static hosting only — no Node server and no build command required. Vercel can serve the project directly as a static site.
