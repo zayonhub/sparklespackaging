@@ -1,0 +1,19 @@
+/* Sparkles Packaging — bright site theme */
+:root{
+  --ink:#172033;
+  --ink-soft:#53627A;
+  --kraft:#F5FAFF;
+  --paper:#FFFFFF;
+  --line:rgba(23,32,51,0.10);
+}
+body{background:var(--kraft);color:var(--ink);}
+.site-header{background:rgba(255,255,255,0.94);box-shadow:0 1px 14px rgba(23,32,51,0.06);}
+.main-nav{background:#FFFFFF;}
+.wave-divider path{fill:var(--kraft);}
+.wave-divider-white path{fill:var(--paper);}
+.pathways-section{background:var(--paper);}
+.home-industry-section{background:#F5FAFF !important;}
+.route-card,.route-card-warm,.route-card-paper{background:#FFFFFF;box-shadow:0 10px 30px rgba(23,32,51,0.07);}
+.home-trust-strip{background:#172A75;}
+.footer-grid a:hover{color:var(--orange);}
+@media (max-width:920px){.main-nav{background:#FFFFFF;}}
