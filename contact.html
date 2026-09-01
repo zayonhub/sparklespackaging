@@ -10,6 +10,162 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="stylesheet" href="assets/styles.css">
   <title>Contact — Sparkles Packaging</title>
+  <style>
+    .contact-grid {
+      display: grid;
+      gap: 48px;
+      align-items: stretch;
+    }
+    @media (min-width: 900px) {
+      .contact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 56px;
+        align-items: start;
+      }
+    }
+    .contact-copy {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding-top: 8px;
+    }
+    .contact-copy h2 {
+      font-size: clamp(26px, 3.2vw, 34px);
+      margin: 14px 0 16px;
+    }
+    .contact-copy .lede {
+      color: var(--ink-soft);
+      line-height: 1.7;
+      max-width: 44ch;
+      margin: 0 0 28px;
+      font-size: 16px;
+    }
+    .detail-list {
+      display: grid;
+      gap: 0;
+      margin: 0 0 32px;
+      border: 1px solid rgba(27,20,14,0.08);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .detail-item {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(27,20,14,0.06);
+      align-items: baseline;
+    }
+    .detail-item:last-child { border-bottom: none; }
+    .detail-item strong {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .detail-item span {
+      font-size: 15px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .form-card {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 36px 32px 32px;
+      border: 1px solid rgba(27,20,14,0.07);
+      box-shadow: 0 16px 48px -12px rgba(27,20,14,0.12);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    .form-card-title {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      margin: 0 0 6px;
+    }
+    .form-card-sub {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin: 0 0 28px;
+      line-height: 1.5;
+    }
+    .form-card form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex: 1;
+    }
+    .form-card label {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0;
+    }
+    .form-card input,
+    .form-card textarea {
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      border: 1.5px solid rgba(27,20,14,0.12);
+      border-radius: 12px;
+      background: #FAFAFA;
+      color: var(--ink);
+      transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+    .form-card input:focus,
+    .form-card textarea:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(27,51,224,0.08);
+    }
+    .form-card textarea {
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+    .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+    .form-help {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin: 0;
+      line-height: 1.45;
+    }
+    .success-state {
+      text-align: center;
+      padding: 32px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      gap: 8px;
+    }
+    .success-state h3 { font-size: 20px; margin: 8px 0 4px; }
+    .success-state p { color: var(--ink-soft); margin: 0 0 16px; max-width: 28ch; }
+    @media (max-width: 899px) {
+      .form-card { padding: 28px 22px; }
+      .detail-item { grid-template-columns: 1fr; gap: 4px; }
+    }
+  </style>
 </head>
 <body>
   <header class="site-header">
@@ -35,6 +191,7 @@
       </button>
     </div>
   </header>
+
   <main>
     <section class="page-hero">
       <div class="page-hero-glow"></div>
@@ -50,10 +207,10 @@
 
     <section class="section">
       <div class="container contact-grid">
-        <div>
+        <div class="contact-copy">
           <span class="section-tag tag-blue">Get in touch</span>
           <h2>Tell us what you are working on.</h2>
-          <p style="color:var(--ink-soft);line-height:1.7;margin:14px 0 8px;max-width:46ch">We deliver worldwide and serve recognized brands across West Africa. Sparkles operates from Lagos and Ilorin. Share the product, material, quantity, and destination so we can respond with practical next steps.</p>
+          <p class="lede">We deliver worldwide and serve recognized brands across West Africa. Sparkles operates from Lagos and Ilorin. Share the product, material, quantity, and destination so we can respond with practical next steps.</p>
           <div class="detail-list">
             <div class="detail-item"><strong>Lagos</strong><span>41 Olowu Street, Ikeja</span></div>
             <div class="detail-item"><strong>Ilorin</strong><span>No. 9 Balogun Fulani Road</span></div>
@@ -63,13 +220,22 @@
           </div>
           <button class="btn btn-primary" data-whatsapp="Hello Sparkles, I would like to speak with the packaging team about my requirement.">Chat on WhatsApp</button>
         </div>
+
         <div class="form-card">
           <div id="contact-form-wrap">
+            <p class="form-card-title">Send a brief</p>
+            <p class="form-card-sub">Your message opens in WhatsApp with the details you provide.</p>
             <form id="contact-form">
-              <label>Company name<input name="company" required placeholder="Your business name"></label>
-              <label>What do you need?<textarea name="requirement" required rows="5" placeholder="Plain materials, sack printing, package branding, consultation, or another requirement"></textarea></label>
-              <button class="btn btn-primary" type="submit">Send to WhatsApp</button>
-              <p class="form-help">Your message opens in WhatsApp with the details you provide.</p>
+              <label>Company name
+                <input name="company" required placeholder="Your business name">
+              </label>
+              <label>What do you need?
+                <textarea name="requirement" required rows="5" placeholder="Plain materials, sack printing, package branding, consultation, or another requirement"></textarea>
+              </label>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Send to WhatsApp</button>
+                <p class="form-help">We respond during business hours with MOQ guidance and next steps.</p>
+              </div>
             </form>
           </div>
           <div id="contact-success" class="success-state" hidden>
@@ -82,6 +248,7 @@
       </div>
     </section>
   </main>
+
   <footer class="site-footer">
     <div class="container footer-top">
       <div class="footer-brand-col">
