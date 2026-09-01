@@ -74,6 +74,18 @@ const ICON_CLOSE =
   });
 })();
 
+(function shortenEyebrow() {
+  document.querySelectorAll(".eyebrow").forEach((el) => {
+    const t = el.textContent.trim().replace(/\s+/g, " ");
+    if (/Packaging partnership/i.test(t) && /Worldwide/i.test(t)) {
+      const dot = el.querySelector(".eyebrow-dot");
+      el.replaceChildren();
+      if (dot) el.appendChild(dot);
+      el.appendChild(document.createTextNode(" Worldwide packaging"));
+    }
+  });
+})();
+
 (function siteUpgrade() {
   const style = document.createElement("style");
   style.textContent = `
@@ -107,9 +119,9 @@ const ICON_CLOSE =
 .modern-product-card.reveal-card{opacity:0;transform:translateY(20px);transition:none}
 .modern-product-card.reveal-card.is-visible{opacity:1;transform:translateY(0);transition:opacity 1s cubic-bezier(0.22,1,0.36,1),transform 1s cubic-bezier(0.22,1,0.36,1)}
 .modern-product-card.reveal-card.is-visible:hover{transform:translateY(-6px)}
-.product-mobile-cta{display:none}
+.product-mobile-cta{display:none!important}
 @media(max-width:860px){.product-capability-strip{grid-template-columns:repeat(2,1fr)}.product-capability-strip>div:nth-child(2){border-right:0}.product-capability-strip>div:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.12)}}
-@media(max-width:720px){.container{padding-left:18px;padding-right:18px}.product-filters{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 2px 7px}.product-filters::-webkit-scrollbar{display:none}.product-filter{flex:0 0 auto}.product-capability-strip{border-radius:16px;margin-bottom:28px}.product-capability-strip>div{padding:14px 12px}.product-capability-strip strong{font-size:14px}.product-capability-strip span{font-size:10px}.modern-products-grid{grid-template-columns:1fr!important;gap:16px!important}.modern-product-image{aspect-ratio:16/10!important}.modern-product-body{min-height:200px!important;padding:18px!important}.modern-product-body h2{font-size:19px!important}.portfolio-link{width:100%;text-align:center;padding:12px!important}.product-mobile-cta{display:flex;position:fixed;left:14px;right:14px;bottom:14px;z-index:45;justify-content:center;background:#F5901F;color:#fff;border:0;border-radius:999px;padding:14px 20px;font-weight:800;font-size:15px;box-shadow:0 12px 30px rgba(12,22,104,.22)}body{padding-bottom:72px}.site-footer{padding-bottom:10px!important}}
+@media(max-width:720px){.container{padding-left:18px;padding-right:18px}.product-filters{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 2px 7px}.product-filters::-webkit-scrollbar{display:none}.product-filter{flex:0 0 auto}.product-capability-strip{border-radius:16px;margin-bottom:28px}.product-capability-strip>div{padding:14px 12px}.product-capability-strip strong{font-size:14px}.product-capability-strip span{font-size:10px}.modern-products-grid{grid-template-columns:1fr!important;gap:16px!important}.modern-product-image{aspect-ratio:16/10!important}.modern-product-body{min-height:200px!important;padding:18px!important}.modern-product-body h2{font-size:19px!important}.portfolio-link{width:100%;text-align:center;padding:12px!important}}
 @media(prefers-reduced-motion:reduce){.modern-product-card,.modern-product-card.reveal-card,.modern-product-card.reveal-card.is-visible,.modern-product-image>img{transition:none!important;transform:none!important;opacity:1!important}}
 `;
   document.head.appendChild(style);
@@ -219,14 +231,5 @@ const ICON_CLOSE =
   } else {
     cards.forEach((c) => c.classList.add("is-visible"));
   }
-
-  const sticky = document.createElement("button");
-  sticky.className = "product-mobile-cta";
-  sticky.type = "button";
-  sticky.textContent = "Get a Quote";
-  sticky.setAttribute(
-    "data-whatsapp",
-    "Hello Sparkles, I would like a packaging quote. Product: __. Size/specification: __. Quantity: __. Delivery location: __."
-  );
-  document.body.appendChild(sticky);
+  /* sticky product CTA removed — floating WhatsApp only */
 })();
