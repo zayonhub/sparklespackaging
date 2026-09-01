@@ -104,7 +104,7 @@ const ICON_CLOSE = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" 
     if (frame && !frame.querySelector("img")) {
       const img = document.createElement("img");
       img.src = `assets/img/products/${String(i + 1).padStart(2, "0")}.jpg`;
-      img.alt = card.querySelector("h2")?.textContent.trim() || "Sparkles Packaging product";
+      img.alt = (card.querySelector("h2") && card.querySelector("h2").textContent.trim()) || "Sparkles Packaging product";
       img.width = 900;
       img.height = 600;
       img.loading = i < 3 ? "eager" : "lazy";
@@ -127,28 +127,40 @@ const ICON_CLOSE = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" 
     toolbar.className = "product-toolbar";
     const search = document.createElement("div");
     search.className = "product-search-wrap";
-    search.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><input class="product-search" type="search" placeholder="Search products…" aria-label="Search products"><span class="product-search-count"></span>`;
-    const categories = ["All", ...new Set(cards.map((c) => c.querySelector(".product-category")?.textContent.trim()).filter(Boolean))];
+    search.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg><input class="product-search" type="search" placeholder="Search products" aria-label="Search products"><span class="product-search-count"></span>`;
+    const categories = ["All"].concat(
+      Array.from(new Set(cards.map((c) => {
+        const el = c.querySelector(".product-category");
+        return el ? el.textContent.trim() : "";
+      }).filter(Boolean)))
+    );
     const filters = document.createElement("div");
     filters.className = "product-filters";
     filters.setAttribute("aria-label", "Product categories");
-    filters.innerHTML = categories.map((x, i) => `<button type="button" class="product-filter${i === 0 ? " is-active" : ""}" data-filter="${x.replace(/&/g, "&").replace(/"/g, """)}">${x}</button>`).join("");
+    filters.innerHTML = categories.map((x, i) => {
+      const active = i === 0 ? " is-active" : "";
+      return '<button type="button" class="product-filter' + active + '" data-filter="' + x + '">' + x + '</button>';
+    }).join("");
     toolbar.appendChild(search);
     toolbar.appendChild(filters);
     heading.parentElement.insertBefore(toolbar, grid);
 
     const apply = () => {
-      const selected = filters.querySelector(".is-active")?.dataset.filter || "All";
-      const q = search.querySelector("input").value.trim().toLowerCase();
+      const activeBtn = filters.querySelector(".is-active");
+      const selected = (activeBtn && activeBtn.getAttribute("data-filter")) || "All";
+      const input = search.querySelector("input");
+      const q = (input && input.value.trim().toLowerCase()) || "";
       let shown = 0;
       cards.forEach((c) => {
-        const cat = c.querySelector(".product-category")?.textContent.trim() || "";
+        const catEl = c.querySelector(".product-category");
+        const cat = catEl ? catEl.textContent.trim() : "";
         const text = c.textContent.toLowerCase();
-        const ok = (selected === "All" || cat === selected) && (!q || text.includes(q));
+        const ok = (selected === "All" || cat === selected) && (!q || text.indexOf(q) !== -1);
         c.hidden = !ok;
         if (ok) shown++;
       });
-      search.querySelector(".product-search-count").textContent = `${shown} shown`;
+      const count = search.querySelector(".product-search-count");
+      if (count) count.textContent = shown + " shown";
     };
     filters.addEventListener("click", (e) => {
       const b = e.target.closest("button");
