@@ -14,24 +14,28 @@
     .contact-grid {
       display: grid;
       gap: 48px;
-      align-items: stretch;
+      align-items: start;
     }
     @media (min-width: 900px) {
       .contact-grid {
         grid-template-columns: 1fr 1fr;
         gap: 56px;
-        align-items: start;
       }
     }
     .contact-copy {
       display: flex;
       flex-direction: column;
-      gap: 0;
-      padding-top: 8px;
+      align-items: flex-start;
+      padding-top: 4px;
+    }
+    .contact-copy .section-tag {
+      align-self: flex-start;
+      width: auto;
+      margin-bottom: 16px;
     }
     .contact-copy h2 {
       font-size: clamp(26px, 3.2vw, 34px);
-      margin: 14px 0 16px;
+      margin: 0 0 16px;
     }
     .contact-copy .lede {
       color: var(--ink-soft);
@@ -43,7 +47,8 @@
     .detail-list {
       display: grid;
       gap: 0;
-      margin: 0 0 32px;
+      width: 100%;
+      margin: 0 0 28px;
       border: 1px solid rgba(27,20,14,0.08);
       border-radius: 18px;
       overflow: hidden;
@@ -53,7 +58,7 @@
       display: grid;
       grid-template-columns: 110px 1fr;
       gap: 12px;
-      padding: 16px 20px;
+      padding: 15px 20px;
       border-bottom: 1px solid rgba(27,20,14,0.06);
       align-items: baseline;
     }
@@ -64,6 +69,7 @@
       letter-spacing: 0.07em;
       text-transform: uppercase;
       color: var(--ink-soft);
+      margin: 0;
     }
     .detail-item span {
       font-size: 15px;
@@ -80,7 +86,6 @@
       box-shadow: 0 16px 48px -12px rgba(27,20,14,0.12);
       display: flex;
       flex-direction: column;
-      min-height: 100%;
     }
     .form-card-title {
       font-family: var(--display);
@@ -98,8 +103,7 @@
     .form-card form {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      flex: 1;
+      gap: 22px;
     }
     .form-card label {
       display: flex;
@@ -132,7 +136,7 @@
       box-shadow: 0 0 0 4px rgba(27,51,224,0.08);
     }
     .form-card textarea {
-      min-height: 140px;
+      min-height: 148px;
       resize: vertical;
       line-height: 1.55;
     }
@@ -140,8 +144,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      margin-top: auto;
-      padding-top: 8px;
+      padding-top: 4px;
     }
     .form-help {
       font-size: 13px;
@@ -151,12 +154,11 @@
     }
     .success-state {
       text-align: center;
-      padding: 32px 12px;
+      padding: 40px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      flex: 1;
       gap: 8px;
     }
     .success-state h3 { font-size: 20px; margin: 8px 0 4px; }
